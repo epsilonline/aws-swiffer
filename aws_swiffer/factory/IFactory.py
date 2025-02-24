@@ -26,3 +26,7 @@ class IFactory(ABC):
     def create_by_id(self, resource_id: str) -> IResource:
         raise NotImplementedError
 
+    @abstractmethod
+    def create_by_list_file(self, file_path: str) -> list[Type[IResource]]:
+        raise NotImplementedError
+

@@ -1,14 +1,14 @@
 import os
 
 from aws_swiffer.resources.IResource import IResource
-from aws_swiffer.factory import get_resources_by_tags, IFactory
+from aws_swiffer.factory import get_resources_by_tags, BaseFactory
 from aws_swiffer.utils import get_logger
 from aws_swiffer.resources import Bucket
 
 logger = get_logger(os.path.basename(__file__))
 
 
-class BucketFactory(IFactory):
+class BucketFactory(BaseFactory):
 
     def create_by_tags(self, tags: dict) -> list[IResource]:
         try:
