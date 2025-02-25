@@ -2,7 +2,9 @@ from abc import ABC, abstractmethod
 from typing import Type
 import os
 from pathlib import Path
+import csv
 
+from aws_swiffer.factory import IFactory
 from aws_swiffer.resources.IResource import IResource
 
 
@@ -16,9 +18,12 @@ class BaseFactory(IFactory):
         
         resource_arns: list[Type[IResource]] = []
 
-        with open(file_path) as f:
-            resource_name = f.read()
-            resource_arn = self.create_by_name(resource_name)
-            resource_arns.append(resource_arn)
+        with open(file_path, 'r') as f:
+            csv_reader = csv.DictReader(f)
+
+            for row in csv_reader:
+                resource_name = row['resource_names']
+                resource_arn = self.create_by_name(resource_name)
+                resource_arns.append(resource_arn)
 
         return resource_arns

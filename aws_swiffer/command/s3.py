@@ -17,3 +17,9 @@ def remove_bucket_by_tags(tags: str = None):
     logger.info(f"Found {len(buckets)} Buckets")
     for s in buckets:
         s.remove()
+
+def clear_bucket_by_list_file(file_path: str):
+    logger.info(f"Taking S3 buckets from file...")
+    buckets = BucketFactory().create_by_list_file(file_path = file_path)
+    for bucket in buckets:
+        bucket.remove(clear_only=True)

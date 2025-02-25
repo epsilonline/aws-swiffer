@@ -35,6 +35,7 @@ app = Typer(callback=callback, no_args_is_help=True)
 # Add commands here
 app.command()(command.remove_task_definitions_by_tags)
 app.command()(command.remove_bucket_by_name)
+app.command()(command.clear_bucket_by_list_file)
 app.command()(command.remove_iam_group_by_name)
 app.command()(command.remove_iam_user_by_name)
 app.command()(command.remove_iam_policy_by_tags)

@@ -15,20 +15,13 @@ class Bucket(IResource):
             name = arn.split(':')[-1]
         super().__init__(arn, name, tags, region)
 
-    def remove(self):
+    def remove(self, clear_only: bool = False):
         logger.info(f"Trying to delete resource: {self.arn}")
         s3 = get_resource('s3', self.region)
         bucket = s3.Bucket(self.name)
         delete = ask_delete_confirm(self.name)
         if delete:
             try:
-                try:
-                    bucket_website = s3.BucketWebsite(self.name)
-                    logger.info('Trying to delete website configuration')
-                    bucket_website.delete()
-                    logger.info('Website configuration deleted')
-                except botocore.exceptions.ClientError as e:
-                    logger.debug(e)
                 try:
                     logger.info('Trying to delete old versions')
                     bucket.object_versions.delete()
@@ -39,9 +32,17 @@ class Bucket(IResource):
                     logger.info(f"Start delete of all objects in bucket")
                     bucket.objects.all().delete()
                     logger.info(f"Delete of all objects completed")
-                response = bucket.delete()
-                logger.debug(response)
-                logger.info(f"Resource deleted: {self.arn}")
+                if not clear_only:
+                    try:
+                        bucket_website = s3.BucketWebsite(self.name)
+                        logger.info('Trying to delete website configuration')
+                        bucket_website.delete()
+                        logger.info('Website configuration deleted')
+                    except botocore.exceptions.ClientError as e:
+                        logger.debug(e)
+                    response = bucket.delete()
+                    logger.debug(response)
+                    logger.info(f"Resource deleted: {self.arn}")
             except botocore.exceptions.ClientError as e:
                 if e.response.get('Error', {}).get('Code') == 'NoSuchBucket':
                     logger.info("Bucket not found")
