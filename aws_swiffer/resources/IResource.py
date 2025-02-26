@@ -15,5 +15,15 @@ class IResource(abc.ABC):
         return f'{self.arn}'
 
     def remove(self):
+        """
+        Remove resource
+        :return:
+        """
         raise NotImplementedError
 
+    def clean(self):
+        """
+        Remove al relations between resources and other things that avoid deletions, such as object in s3 bucket
+        :return:
+        """
+        raise NotImplementedError

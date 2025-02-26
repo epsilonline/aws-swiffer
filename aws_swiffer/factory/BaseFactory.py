@@ -8,9 +8,10 @@ from aws_swiffer.factory import IFactory
 from aws_swiffer.resources.IResource import IResource
 
 
-class BaseFactory(IFactory):
+class BaseFactory(IFactory, ABC):
 
     def __init__(self):
+        super().__init__()
         self.region = os.getenv('AWS_REGION')
 
     def create_by_list_file(self, file_path: str) -> list[Type[IResource]]:

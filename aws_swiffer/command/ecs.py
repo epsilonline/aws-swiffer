@@ -1,9 +1,12 @@
+from typer import Typer
 from aws_swiffer.factory.ecs import TaskDefinitionFactory, ServiceFactory, ClusterFactory
 from aws_swiffer.utils import get_logger, get_tags
 
 logger = get_logger('ECS')
+ecs_command = Typer()
 
 
+@ecs_command.command()
 def remove_task_definitions_by_tags(tags: str = None):
     tags = get_tags(tags)
 
@@ -14,6 +17,7 @@ def remove_task_definitions_by_tags(tags: str = None):
         td.remove()
 
 
+@ecs_command.command()
 def remove_service_by_tags(tags: str = None):
     tags = get_tags(tags)
 
@@ -24,11 +28,13 @@ def remove_service_by_tags(tags: str = None):
         s.remove()
 
 
+@ecs_command.command()
 def remove_service_by_arn(arn: str):
     service = ServiceFactory().create_by_arn(arn=arn)
     service.remove()
 
 
+@ecs_command.command()
 def remove_service_by_arns(arn: str):
     arn = arn.split(' ')
     print(arn)
@@ -37,9 +43,9 @@ def remove_service_by_arns(arn: str):
         service.remove()
 
 
+@ecs_command.command()
 def remove_ecs_cluster_by_tags(tags: str = None):
     tags = get_tags(tags)
-
     logger.info(f"Search ECS Clusters by tags: \n{tags}")
     ecs_clusters = ClusterFactory().create_by_tags(tags=tags)
     logger.info(f"Found {len(ecs_clusters)} clusters")

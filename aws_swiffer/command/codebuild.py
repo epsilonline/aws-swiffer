@@ -1,9 +1,12 @@
+from typer import Typer
 from aws_swiffer.factory.codebuild import ProjectFactory
 from aws_swiffer.utils import get_logger, get_tags
 
 logger = get_logger('CODEBUILD')
+codebuild_command = Typer()
 
 
+@codebuild_command.command()
 def remove_codebuild_projects_by_tags(tags: str = None):
     tags = get_tags(tags)
     logger.info(f"Search Codebuild projects by tags: \n{tags}")
@@ -13,6 +16,7 @@ def remove_codebuild_projects_by_tags(tags: str = None):
         e.remove()
 
 
+@codebuild_command.command()
 def remove_codebuild_project_by_name(name: str):
     codepipeline_pipeline = ProjectFactory().create_by_name(name=name)
     codepipeline_pipeline.remove()
