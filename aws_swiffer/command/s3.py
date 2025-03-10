@@ -1,9 +1,19 @@
-from typer import Typer
+from typer import Typer, Argument
 from aws_swiffer.factory.s3.BucketFactory import BucketFactory
-from aws_swiffer.utils import get_logger, get_tags
+from aws_swiffer.utils import get_logger, get_tags, callback_check_account
+from typing_extensions import Annotated
 
 logger = get_logger('s3')
-s3_command = Typer()
+
+
+def callback(profile: str = None, region: str = 'eu-west-1', skip_account_check: bool = False):
+    """
+    Clean S3 resources
+    """
+    callback_check_account(profile=profile, region=region, skip_account_check=skip_account_check)
+
+
+s3_command = Typer(callback=callback)
 
 
 @s3_command.command()
@@ -31,12 +41,10 @@ def remove_bucket_by_file_list(file_path: str):
 
 
 @s3_command.command()
-def remove_bucket_by_tags(tags: str = None):
+def remove_bucket_by_tags(tags: Annotated[str, Argument(help="You can provide JSON tag list or use GUI for choose "
+                                                             "selection tags.")] = None):
     """
-    Find bucket by tags, and for each bucket empty and delete it
-    :param tags:
-    :return:
-    tags = get_tags(tags)
+    Find bucket by tags, and for each bucket empty and delete it.
     """
     tags = get_tags(tags)
     logger.info(f"Search S3 buckets by tags: \n{tags}")
@@ -58,12 +66,10 @@ def clean_bucket_by_name(name: str):
 
 
 @s3_command.command()
-def clean_bucket_by_tags(tags: str = None):
+def clean_bucket_by_tags(tags: Annotated[str, Argument(help="You can provide JSON tag list or use GUI for choose "
+                                                             "selection tags.")] = None):
     """
     Find bucket by tags, and for each bucket empty it
-    :param tags:
-    :return:
-    tags = get_tags(tags)
     """
     tags = get_tags(tags)
     logger.info(f"Search S3 buckets by tags: \n{tags}")

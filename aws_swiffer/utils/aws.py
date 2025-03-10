@@ -1,6 +1,5 @@
 import boto3
 from botocore.config import Config
-
 import os
 
 clients = {}
@@ -33,9 +32,9 @@ def get_resource(service_name: str, region: str = None):
     return resources[key]
 
 
-def get_account_info(region: str = None):
-    sts = get_client('sts', region=region)
-    iam = get_client('iam', region=region)
+def get_account_info():
+    sts = get_client('sts')
+    iam = get_client('iam')
     caller_identity = sts.get_caller_identity()
     caller_identity['region'] = sts.meta.region_name
     caller_identity['AccountAliases'] = iam.list_account_aliases().get('AccountAliases')

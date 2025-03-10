@@ -1,9 +1,18 @@
 from typer import Typer
 from aws_swiffer.factory.iam import GroupFactory, UserFactory, PolicyFactory
-from aws_swiffer.utils import get_logger, get_tags
+from aws_swiffer.utils import get_logger, get_tags, callback_check_account
 
 logger = get_logger('IAM')
-iam_command = Typer()
+
+
+def callback(profile: str = None, region: str = 'eu-west-1', skip_account_check: bool = False):
+    """
+    Clean IAM resources
+    """
+    callback_check_account(profile=profile, region=region, skip_account_check=skip_account_check)
+
+
+iam_command = Typer(callback=callback)
 
 
 @iam_command.command()

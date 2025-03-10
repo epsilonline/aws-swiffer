@@ -44,6 +44,7 @@ class Bucket(IResource):
 
     def clean(self):
         try:
+            logger.info(f'Start clean for: {self.arn}')
             logger.info('Trying to delete old versions')
             self.bucket.object_versions.delete()
             logger.info('Old file versions deleted ')

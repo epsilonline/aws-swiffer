@@ -1,9 +1,18 @@
 from typer import Typer
 from aws_swiffer.factory.ecs import TaskDefinitionFactory, ServiceFactory, ClusterFactory
-from aws_swiffer.utils import get_logger, get_tags
+from aws_swiffer.utils import get_logger, get_tags, callback_check_account
 
 logger = get_logger('ECS')
-ecs_command = Typer()
+
+
+def callback(profile: str = None, region: str = 'eu-west-1', skip_account_check: bool = False):
+    """
+    Clean ECS resources
+    """
+    callback_check_account(profile=profile, region=region, skip_account_check=skip_account_check)
+
+
+ecs_command = Typer(callback=callback)
 
 
 @ecs_command.command()

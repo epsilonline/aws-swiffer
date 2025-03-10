@@ -1,9 +1,18 @@
 from typer import Typer
 from aws_swiffer.factory.codepipeline import CodepipelineFactory
-from aws_swiffer.utils import get_logger, get_tags
+from aws_swiffer.utils import get_logger, get_tags, callback_check_account
 
 logger = get_logger('CODEPIPELINE')
-codepipeline_command = Typer()
+
+
+def callback(profile: str = None, region: str = 'eu-west-1', skip_account_check: bool = False):
+    """
+    Clean CODEPIPELINE resources
+    """
+    callback_check_account(profile=profile, region=region, skip_account_check=skip_account_check)
+
+
+codepipeline_command = Typer(callback=callback)
 
 
 @codepipeline_command.command()
