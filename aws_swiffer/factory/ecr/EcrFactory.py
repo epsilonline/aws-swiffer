@@ -32,3 +32,6 @@ class EcrFactory(IFactory):
 
     def create_by_id(self, resource_id: str) -> IResource:
         return self.create_by_name(resource_id)
+    
+    def create_by_list_file(self, file_path):
+        return super().create_by_list_file(file_path)
