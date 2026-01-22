@@ -32,3 +32,6 @@ class ClusterFactory(IFactory):
 
     def create_by_id(self, resource_id: str) -> IResource:
         return self.create_by_name(resource_id)
+
+    def create_by_list_file() -> list[IResource]:
+        raise NotImplementedError
