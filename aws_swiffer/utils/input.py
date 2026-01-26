@@ -83,7 +83,25 @@ def get_tags(tags: str = None) -> dict:
     return tags
 
 
-def ask_delete_confirm(resource_name: str) -> bool:
+def ask_delete_confirm(resource_name: str, context: 'ExecutionContext' = None) -> bool:
+    """
+    Ask for confirmation before deleting a resource.
+    
+    Args:
+        resource_name: Name of the resource to delete
+        context: Optional ExecutionContext for auto-approve or dry-run modes
+        
+    Returns:
+        True if deletion should proceed, False otherwise
+    """
+    # Handle context-based decisions
+    if context:
+        if context.dry_run:
+            return False
+        if context.auto_approve:
+            return True
+    
+    # Interactive confirmation
     choice = no_yes_dialog(
         title=f'Confirm deletion', text=f'Are sure to delete {resource_name}? All data will lost!',
     ).run()

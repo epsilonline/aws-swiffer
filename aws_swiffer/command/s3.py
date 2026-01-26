@@ -6,11 +6,13 @@ from typing_extensions import Annotated
 logger = get_logger('s3')
 
 
-def callback(profile: str = None, region: str = 'eu-west-1', skip_account_check: bool = False):
+def callback(profile: str = None, region: str = 'eu-west-1', skip_account_check: bool = False,
+            dry_run: bool = False, auto_approve: bool = False):
     """
     Clean S3 resources
     """
-    callback_check_account(profile=profile, region=region, skip_account_check=skip_account_check)
+    callback_check_account(profile=profile, region=region, skip_account_check=skip_account_check,
+                          dry_run=dry_run, auto_approve=auto_approve)
 
 
 s3_command = Typer(callback=callback)

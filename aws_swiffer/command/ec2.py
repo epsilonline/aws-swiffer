@@ -3,11 +3,13 @@ from aws_swiffer.factory.ec2 import InstanceFactory
 from aws_swiffer.utils import callback_check_account
 
 
-def callback(profile: str = None, region: str = 'eu-west-1', skip_account_check: bool = False):
+def callback(profile: str = None, region: str = 'eu-west-1', skip_account_check: bool = False,
+            dry_run: bool = False, auto_approve: bool = False):
     """
     Clean EC2 resources
     """
-    callback_check_account(profile=profile, region=region, skip_account_check=skip_account_check)
+    callback_check_account(profile=profile, region=region, skip_account_check=skip_account_check,
+                          dry_run=dry_run, auto_approve=auto_approve)
 
 
 ec2_command = Typer(callback=callback)
