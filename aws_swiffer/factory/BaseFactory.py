@@ -14,7 +14,7 @@ class BaseFactory(IFactory, ABC):
         super().__init__()
         self.region = os.getenv('AWS_REGION')
 
-    def create_by_list_file(self, file_path: str) -> list[Type[IResource]]:
+    def create_by_file_list(self, file_path: str) -> list[Type[IResource]]:
         file_path = Path(file_path)
         
         resource_arns: list[Type[IResource]] = []

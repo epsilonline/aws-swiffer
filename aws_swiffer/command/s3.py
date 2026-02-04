@@ -37,7 +37,7 @@ def remove_bucket_by_file_list(file_path: str):
     :return:
     """
     logger.info(f"Taking S3 buckets from file")
-    buckets = BucketFactory().create_by_list_file(file_path=file_path)
+    buckets = BucketFactory().create_by_file_list(file_path=file_path)
     for bucket in buckets:
         bucket.remove()
 
@@ -89,6 +89,6 @@ def clean_bucket_by_file_list(file_path: str):
     :return:
     """
     logger.info(f"Taking S3 buckets from file")
-    buckets = BucketFactory().create_by_list_file(file_path=file_path)
+    buckets = BucketFactory().create_by_file_list(file_path=file_path)
     for s in buckets:
         s.clean()

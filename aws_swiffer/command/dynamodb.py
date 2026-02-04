@@ -31,7 +31,7 @@ def remove_table_by_file_list(file_path: str):
     Empty and delete dynamodb tables in file list
     """
     logger.info(f"Taking DYNAMODB tables tables from file")
-    tables = TableFactory().create_by_list_file(file_path=file_path)
+    tables = TableFactory().create_by_file_list(file_path=file_path)
     for table in tables:
         table.remove()
 
@@ -79,6 +79,6 @@ def clean_table_by_file_list(file_path: str):
     Clean dynamodb tables select by file list
     """
     logger.info(f"Taking DYNAMODB tables from file")
-    tables = TableFactory().create_by_list_file(file_path=file_path)
+    tables = TableFactory().create_by_file_list(file_path=file_path)
     for t in tables:
         t.clean()

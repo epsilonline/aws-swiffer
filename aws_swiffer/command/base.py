@@ -88,7 +88,7 @@ class BaseCommand(ABC):
             file_path: Path to file containing resource identifiers
         """
         self.logger.info(f"Loading resources from file: {file_path}")
-        resources = self.factory.create_by_list_file(file_path)
+        resources = self.factory.create_by_file_list(file_path)
         self.logger.info(f"Found {len(resources)} resources in file")
         self._execute_batch_removal(resources)
     

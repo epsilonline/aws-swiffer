@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-swiffer"
-version = "0.1.0"
+version = "0.1.1"
 description = "Clean your AWS account in easy and fast way"
 authors = ["gabriele.previtera <gabriele.previtera@epsilonline.com>"]
 readme = "README.md"

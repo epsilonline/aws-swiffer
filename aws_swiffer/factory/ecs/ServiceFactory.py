@@ -2,13 +2,13 @@ import os
 
 from aws_swiffer.resources.IResource import IResource
 from aws_swiffer.resources.ecs import Service
-from aws_swiffer.factory import get_resources_by_tags, IFactory
+from aws_swiffer.factory import get_resources_by_tags, BaseFactory
 from aws_swiffer.utils import get_logger, validate_arn, get_base_arn
 
 logger = get_logger(os.path.basename(__file__))
 
 
-class ServiceFactory(IFactory):
+class ServiceFactory(BaseFactory):
 
     def create_by_tags(self, tags: dict) -> list[IResource]:
         try:
@@ -32,6 +32,3 @@ class ServiceFactory(IFactory):
 
     def create_by_id(self, resource_id: str) -> IResource:
         return self.create_by_name(resource_id)
-
-    def create_by_list_file() -> list[IResource]:
-        raise NotImplementedError

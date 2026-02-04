@@ -2,13 +2,13 @@ import os
 
 from aws_swiffer.resources.IResource import IResource
 from aws_swiffer.resources.ecr import Ecr
-from aws_swiffer.factory import get_resources_by_tags, IFactory
+from aws_swiffer.factory import get_resources_by_tags, BaseFactory
 from aws_swiffer.utils import get_logger, get_base_arn, validate_arn
 
 logger = get_logger(os.path.basename(__file__))
 
 
-class EcrFactory(IFactory):
+class EcrFactory(BaseFactory):
 
     def create_by_tags(self, tags: dict) -> list[IResource]:
         try:
@@ -33,5 +33,3 @@ class EcrFactory(IFactory):
     def create_by_id(self, resource_id: str) -> IResource:
         return self.create_by_name(resource_id)
     
-    def create_by_list_file(self, file_path):
-        return super().create_by_list_file(file_path)

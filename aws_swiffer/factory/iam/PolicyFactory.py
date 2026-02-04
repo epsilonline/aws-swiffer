@@ -1,21 +1,21 @@
 import os
 
 from aws_swiffer.resources.IResource import IResource
-from aws_swiffer.factory import IFactory, get_resources_by_tags
+from aws_swiffer.factory import BaseFactory, get_resources_by_tags
 from aws_swiffer.utils import get_logger, get_base_arn
 from aws_swiffer.resources.iam import Policy
 
 logger = get_logger(os.path.basename(__file__))
 
 
-class PolicyFactory(IFactory):
+class PolicyFactory(BaseFactory):
 
     def create_by_tags(self, tags: dict) -> list[IResource]:
         try:
             resource_type_filters = 'iam:policy'
             resources = get_resources_by_tags(tags=tags,
-                                              resource_type_filters=resource_type_filters,
-                                              resource_class=Policy)
+                                            resource_type_filters=resource_type_filters,
+                                            resource_class=Policy)
             return resources
         except Exception as e:
             logger.error(e)
