@@ -5,3 +5,4 @@ from .ec2 import *
 from .ecr import *
 from .codepipeline import *
 from .codebuild import *
+from .vpc import *

@@ -30,6 +30,7 @@ app.add_typer(ecs_command, name="ecs", no_args_is_help=True)
 app.add_typer(iam_command, name="iam", no_args_is_help=True)
 app.add_typer(s3_command, name="s3", no_args_is_help=True)
 app.add_typer(dynamodb_command, name="dynamodb", no_args_is_help=True)
+app.add_typer(dynamodb_command, name="dynamodb", no_args_is_help=True)
 
 if __name__ == "__main__":
     app()
