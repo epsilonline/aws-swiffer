@@ -6,3 +6,4 @@ from .ecr import *
 from .codepipeline import *
 from .codebuild import *
 from .vpc import *
+from .cloudfront import *

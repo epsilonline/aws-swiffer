@@ -1,7 +1,7 @@
 from typer import Typer, Option
 
 from aws_swiffer.command import s3_command, codebuild_command, codepipeline_command, ec2_command, ecr_command, \
-    ecs_command, iam_command
+    ecs_command, iam_command, cloudfront_command
 from aws_swiffer.command.dynamodb import dynamodb_command
 from aws_swiffer.utils import get_logger, callback_base
 
@@ -31,6 +31,7 @@ app.add_typer(iam_command, name="iam", no_args_is_help=True)
 app.add_typer(s3_command, name="s3", no_args_is_help=True)
 app.add_typer(dynamodb_command, name="dynamodb", no_args_is_help=True)
 app.add_typer(dynamodb_command, name="dynamodb", no_args_is_help=True)
+app.add_typer(cloudfront_command, name="cloudfront", no_args_is_help=True)
 
 if __name__ == "__main__":
     app()
