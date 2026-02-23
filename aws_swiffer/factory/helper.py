@@ -4,8 +4,8 @@ from typing import Union, Type
 
 
 def get_resources_by_tags(tags, resource_type_filters: Union[str, list[str]],
-                          resource_class: Type[IResource]):
-    client = get_client('resourcegroupstaggingapi')
+                          resource_class: Type[IResource], region=None):
+    client = get_client('resourcegroupstaggingapi', region=region)
     paginator = client.get_paginator('get_resources')
 
     resources = []
