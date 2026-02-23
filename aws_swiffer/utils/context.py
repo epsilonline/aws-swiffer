@@ -18,7 +18,17 @@ class ExecutionContext:
     auto_approve: bool = False
     region: Optional[str] = None
     profile: Optional[str] = None
+    context: 'ExecutionContext' = None
     
+    @classmethod
+    def get_context(self) -> 'ExecutionContext':
+        if self.context:
+            return self.context
+        else:
+            context = self.from_environment()
+            self.context = context
+            return context
+
     def log_prefix(self) -> str:
         """
         Returns appropriate log prefix based on execution mode.
@@ -46,3 +56,4 @@ class ExecutionContext:
             region=os.getenv('AWS_REGION'),
             profile=os.getenv('AWS_PROFILE')
         )
+    

@@ -1,12 +1,17 @@
 import os
 
 from aws_swiffer.utils import get_logger, get_account_info, no_yes_dialog
+from aws_swiffer.utils.context import ExecutionContext
+
 
 logger = get_logger("AWS")
 
+context = ExecutionContext.get_context()
 
-def callback_base(profile: str = None, region: str = 'eu-west-1', skip_account_check: bool = False,
-                 dry_run: bool = False, auto_approve: bool = False):
+
+def callback_base(profile: str = None, region: str = 'eu-west-1', 
+                skip_account_check: bool = False,
+                dry_run: bool = False, auto_approve: bool = False):
     """
     Powerful cli for remove AWS resources! Powered by Epsilon Team.
     """
@@ -16,14 +21,17 @@ def callback_base(profile: str = None, region: str = 'eu-west-1', skip_account_c
     if profile and not os.getenv('AWS_PROFILE'):
         os.environ['AWS_PROFILE'] = profile
     if skip_account_check:
+        context.skip_account_check = True
         os.environ['SKIP_ACCOUNT_CHECK'] = str(skip_account_check)
     
     # Store execution mode flags in environment
     if dry_run:
         os.environ['DRY_RUN'] = 'true'
+        context.dry_run = True
         logger.info("[DRY-RUN MODE] No actual changes will be made")
     if auto_approve:
         os.environ['AUTO_APPROVE'] = 'true'
+        context.auto_approve = True
         logger.warning("[AUTO-APPROVE MODE] All destructive operations will proceed without confirmation!")
     
     # Dry-run takes precedence over auto-approve
@@ -32,7 +40,7 @@ def callback_base(profile: str = None, region: str = 'eu-west-1', skip_account_c
 
 
 def callback_check_account(profile: str = None, region: str = 'eu-west-1', skip_account_check: bool = False,
-                          dry_run: bool = False, auto_approve: bool = False):
+                         dry_run: bool = False, auto_approve: bool = False):
     callback_base(profile, region, skip_account_check, dry_run, auto_approve)
     confirm_account()
 
