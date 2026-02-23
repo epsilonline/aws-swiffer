@@ -72,7 +72,11 @@ class Distribution(IResource):
 
             logger.info(f"{prefix}Successfully disabled distribution: {self.id}")
 
+            # Get new ETag after disabling distribution
+            after_disable_response = client.get_distribution_config(Id=self.id)
+            etag = after_disable_response['ETag']
+
         except ClientError as e:
-            print(f"Error: {e.response['Error']['Message']}")
+            logger.error(f"Error: {e.response['Error']['Message']}")
 
         return etag
